@@ -1,2 +1,2 @@
 # azure-authoring-client
-MS Azure QnA Maker and LUIS authoring client.
+MS Azure authoring client for multiple QnA Maker and LUIS (Dispatch Model).
