@@ -21,17 +21,6 @@ class Credential:
         self.app_region  = app_region 
         self.app_host    = app_host
         self.app_id      = app_id
-        self.app_client  = self.create_client()
-        
-    def create_client(self):
-        qna_client  = QnAMakerClient(endpoint = self.host, 
-        credentials = CognitiveServicesCredentials(self.key))
-        endpoint    = f'https://{ self.region }.api.cognitive.microsoft.com'
-        luis_client = LUISAuthoringClient(endpoint, 
-        CognitiveServicesCredentials(self.key))
-
-        app_type    = ''.join(self.app_type.split()).lower()
-        return qna_client if app_type == 'qna' else luis_client
 
     def complete(self):
         req_list = None
