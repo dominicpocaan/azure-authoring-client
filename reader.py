@@ -77,15 +77,15 @@ def get_additional(value):
     except:
         return value
 
-def luis_for_qna(app_name, questions):
-    dispatcher = find_credential('Dispatcher', read_credentials())
+def luis_for_qna(app_name, questions, dispatcher):
+    dispatcher = find_credential(dispatcher, read_credentials())
     new_luis = []
     for question in questions:
         new_luis.append(Luis(dispatcher, app_name, question, None, None))
     
     return new_luis
         
-def read_for_qna(file_name):
+def read_for_qna(file_name, dispatcher):
     lines = read_file(file_name)
     qna = None
     new_qnas = []
@@ -102,7 +102,7 @@ def read_for_qna(file_name):
             if match(attrib, 'app_name'):
                 if qna is not None and qna.complete():
                     new_qnas.append(qna)
-                    new_luis = new_luis + luis_for_qna(qna.app_name, qna.questions)
+                    new_luis = new_luis + luis_for_qna(qna.app_name, qna.questions, dispatcher)
                     qna = None
 
                 credential = find_credential(value, read_credentials())
