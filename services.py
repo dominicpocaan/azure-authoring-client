@@ -30,7 +30,7 @@ class QnA:
     def publish(self):
         client = QnAMakerClient(endpoint = self.credential.app_host, 
         credentials = CognitiveServicesCredentials(self.credential.app_key))
-        client.knowledgebase.publish(kb_id = self.x.app_id)
+        client.knowledgebase.publish(kb_id = self.credential.app_id)
 
     def update(self):
         client = QnAMakerClient(endpoint = self.credential.app_host, 
@@ -105,8 +105,7 @@ class Luis:
         endpoint = f'https://{ self.credential.app_region }.api.cognitive.microsoft.com'
         client = LUISAuthoringClient(endpoint, CognitiveServicesCredentials(self.credential.app_key))
         client.train.train_version(self.credential.app_id, self.credential.app_version)
-        client.apps.publish(self.credential.app_id, self.credential.app_version, 
-                                            is_staging=True)
+        client.apps.publish(self.credential.app_id, self.credential.app_version, is_staging=True)
 
     def update(self):
         endpoint = f'https://{ self.credential.app_region }.api.cognitive.microsoft.com'

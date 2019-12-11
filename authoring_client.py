@@ -1,7 +1,5 @@
 from reader import read_for_qna, read_for_luis
 
-import threading
-
 
 
 def qna(file_name, dispatcher):
@@ -10,24 +8,28 @@ def qna(file_name, dispatcher):
 		print(q)
 		q.update()
 
+	return qna
+
 def luis(file_name):
 	luis = read_for_luis(file_name)
 	for l in luis:
 		print(l)
 		l.update()
 
+	return luis
+
 def main():
 	file_name = input('File name: ')
 	dispatch_model = input('Dispatch model: ')
 
-	qna_thread = threading.Thread(target = qna(file_name, dispatch_model))
-	luis_thread = threading.Thread(target = luis(file_name))
+	qna_tasks = qna(file_name, dispatch_model)
+	luis_tasks = luis(file_name)
 
-	qna_thread.start()
-	luis_thread.start()
+	if len(qna_tasks) > 0:
+		qna_tasks[0].publish()
 
-	qna_thread.join()
-	luis_thread.join()
+	if len(luis_tasks) > 0:
+		luis_tasks[0].publish()
 
 if __name__ == '__main__':
 	main()
